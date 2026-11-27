@@ -1,0 +1,21 @@
+<!doctype html><meta charset="utf-8">
+<style>
+:root{--primary-text-color:#e1e1e1;--secondary-text-color:#9b9b9b;--primary-color:#03a9f4;--state-active-color:#fdd835;--ha-card-header-color:#e1e1e1;--secondary-background-color:#2a2a2a}
+body{margin:0;padding:24px;background:#111;font-family:Roboto,-apple-system,Helvetica,Arial,sans-serif;width:420px}
+ha-card{display:block;background:#1c1c1c;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.5);color:#e1e1e1}
+</style>
+<body><activity-feed-card id="c"></activity-feed-card>
+<script>
+// Test harness only: stand-ins for ha-icon and ha-card, which Home Assistant provides.
+const P={"mdi:door":"M8 3h8a1 1 0 0 1 1 1v16h2v2H5v-2h2V4a1 1 0 0 1 1-1m6 9a1 1 0 1 0 0 2 1 1 0 0 0 0-2","mdi:motion-sensor":"M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16m0 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8","mdi:eye":"M12 5C7 5 2.7 8.1 1 12.5 2.7 16.9 7 20 12 20s9.300-3.100 11-7.500C21.300 8.100 17 5 12 5m0 12.500a5 5 0 1 1 0-10 5 5 0 0 1 0 10m0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6","mdi:lock":"M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3","mdi:bell":"M21 19v1H3v-1l2-2v-6c0-3.100 2-5.800 5-6.700V4a2 2 0 1 1 4 0v.3c3 .9 5 3.600 5 6.700v6zm-7 2a2 2 0 1 1-4 0z","mdi:calendar":"M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 16H5V10h14z","mdi:lightbulb":"M12 2a7 7 0 0 0-4 12.700V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.300A7 7 0 0 0 12 2m-2 18h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"};
+customElements.define("ha-icon",class extends HTMLElement{connectedCallback(){const d=P[this.getAttribute("icon")]||"M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8";this.innerHTML=`<svg viewBox="0 0 24 24" width="22" height="22" style="display:block"><path fill="currentColor" d="${d}"/></svg>`}});
+customElements.define("ha-card",class extends HTMLElement{constructor(){super();this.style.cssText="display:block;background:#1c1c1c;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.5);color:#e1e1e1"}});
+</script>
+<script type="module">
+import {mockHass} from "./fixtures.mjs";
+import "../activity-feed-card.js";
+const c=document.getElementById("c");
+c.setConfig({title:"Home activity",calendars:["calendar.family"],entities:["binary_sensor.front_door","binary_sensor.hallway_motion","sensor.living_room_temperature","lock.back_door","light.kitchen"],max_item_count:8});
+c.hass=mockHass();
+setTimeout(()=>document.title="ready",300);
+</script>
